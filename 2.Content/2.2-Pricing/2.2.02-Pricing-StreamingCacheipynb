@@ -1,0 +1,557 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Refinitiv Data Library for Python\n",
+    "## Content - Streaming Price Cache - Synchronous calls\n",
+    "\n",
+    "This notebook demonstrates how to use the Streaming Price interface to retrieve streaming data from the Refinitiv Data Platform."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Import the library and load credentials\n",
+    "\n",
+    "Credentials used by this and the other tutorials notebooks are stored in the **Configuration/credentials.ipynb** file.     \n",
+    "\n",
+    "You should have edited the **Configuration/credentials.ipynb** to set your credentials as part of the **Quick Start** step."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 1,
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "import refinitiv.data as rd\n",
+    "from pandas import DataFrame\n",
+    "from IPython.display import display, clear_output\n",
+    "\n",
+    "%run ../../Configuration/credentials.ipynb"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Open the session of your choice\n",
+    "\n",
+    "Use our helper function in the Credentials notebook, **open_session(session_type)**, to create and open a session to connect to the \n",
+    "- Refinitiv Data Platform directly (session_type=\"rdp\") or via \n",
+    "- Eikon 4 or Refinitiv Workspace (session_type=\"desktop\") or via a \n",
+    "- local realtime infrastructure (session_type=\"deployed\").\n",
+    "\n",
+    "You can also set a default in the **credentials** notebook"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {
+    "collapsed": false,
+    "jupyter": {
+     "outputs_hidden": false
+    },
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<refinitiv.data._data.core.session._platform_session.PlatformSession at 0x129bd165610>"
+      ]
+     },
+     "execution_count": 2,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "open_session('rdp')"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Define and Open a cache for Streaming data\n",
+    "Define a Pricing object from the Streaming data feed - note the **get_stream()** call"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Instrument</th>\n",
+       "      <th>BID</th>\n",
+       "      <th>ASK</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>EUR=</td>\n",
+       "      <td>1.1901</td>\n",
+       "      <td>1.1905</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>GBP=</td>\n",
+       "      <td>1.3904</td>\n",
+       "      <td>1.3908</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>JPY=</td>\n",
+       "      <td>110.47</td>\n",
+       "      <td>110.5</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Instrument     BID     ASK\n",
+       "0       EUR=  1.1901  1.1905\n",
+       "1       GBP=  1.3904  1.3908\n",
+       "2       JPY=  110.47   110.5"
+      ]
+     },
+     "execution_count": 3,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define our Streaming Price object\n",
+    "streaming = rd.content.pricing.Definition(\n",
+    "    ['EUR=', 'GBP=', 'JPY='],\n",
+    "    fields=['BID', 'ASK']\n",
+    ").get_stream()\n",
+    "# Open the Stream - Once opened, the library starts caching the updates\n",
+    "streaming.open()\n",
+    "# When you want the current price, get a snapshot\n",
+    "streaming.get_snapshot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Call get_snapshot() again, prices may change (assuming instruments are being traded/quoted)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Instrument</th>\n",
+       "      <th>BID</th>\n",
+       "      <th>ASK</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>EUR=</td>\n",
+       "      <td>1.1901</td>\n",
+       "      <td>1.1905</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>GBP=</td>\n",
+       "      <td>1.3904</td>\n",
+       "      <td>1.3908</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>JPY=</td>\n",
+       "      <td>110.47</td>\n",
+       "      <td>110.5</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Instrument     BID     ASK\n",
+       "0       EUR=  1.1901  1.1905\n",
+       "1       GBP=  1.3904  1.3908\n",
+       "2       JPY=  110.47   110.5"
+      ]
+     },
+     "execution_count": 4,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "streaming.get_snapshot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Alternative ways of accessing instruments + values"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Direct Access to fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 5,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.1901"
+      ]
+     },
+     "execution_count": 5,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "streaming['EUR=']['BID']"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "1.3908"
+      ]
+     },
+     "execution_count": 6,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "gbp = streaming['GBP=']\n",
+    "gbp['ASK']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Iterate on fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "JPY=\n",
+      "\tBID : 110.47\n",
+      "\tASK : 110.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "print('JPY=')\n",
+    "for field_name, field_value in streaming['JPY=']:\n",
+    "    print(f\"\\t{field_name} : {field_value}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "#### Iterate on Streaming instruments and fields"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "EUR=\n",
+      "\tBID : 1.1901\n",
+      "\tASK : 1.1905\n",
+      "GBP=\n",
+      "\tBID : 1.3904\n",
+      "\tASK : 1.3908\n",
+      "JPY=\n",
+      "\tBID : 110.47\n",
+      "\tASK : 110.5\n"
+     ]
+    }
+   ],
+   "source": [
+    "for instrument in streaming:\n",
+    "    print(instrument.name)\n",
+    "    for field_name, field_value in instrument:\n",
+    "        print(f\"\\t{field_name} : {field_value}\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Close the Streaming Items when no longer required"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<StreamState.Closed: 1>"
+      ]
+     },
+     "execution_count": 9,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "streaming.close()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Invalid or un-licensed instruments\n",
+    "What happens if you request using an invalid RIC or an instrument you are not entitled to?\n",
+    "Let's request a mixture of valid and invalid RICs"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/html": [
+       "<div>\n",
+       "<style scoped>\n",
+       "    .dataframe tbody tr th:only-of-type {\n",
+       "        vertical-align: middle;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe tbody tr th {\n",
+       "        vertical-align: top;\n",
+       "    }\n",
+       "\n",
+       "    .dataframe thead th {\n",
+       "        text-align: right;\n",
+       "    }\n",
+       "</style>\n",
+       "<table border=\"1\" class=\"dataframe\">\n",
+       "  <thead>\n",
+       "    <tr style=\"text-align: right;\">\n",
+       "      <th></th>\n",
+       "      <th>Instrument</th>\n",
+       "      <th>BID</th>\n",
+       "      <th>ASK</th>\n",
+       "    </tr>\n",
+       "  </thead>\n",
+       "  <tbody>\n",
+       "    <tr>\n",
+       "      <th>0</th>\n",
+       "      <td>EUR=</td>\n",
+       "      <td>1.1901</td>\n",
+       "      <td>1.1905</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>1</th>\n",
+       "      <td>GBP=</td>\n",
+       "      <td>1.3904</td>\n",
+       "      <td>1.3908</td>\n",
+       "    </tr>\n",
+       "    <tr>\n",
+       "      <th>2</th>\n",
+       "      <td>DUMMY</td>\n",
+       "      <td>&lt;NA&gt;</td>\n",
+       "      <td>&lt;NA&gt;</td>\n",
+       "    </tr>\n",
+       "  </tbody>\n",
+       "</table>\n",
+       "</div>"
+      ],
+      "text/plain": [
+       "  Instrument     BID     ASK\n",
+       "0       EUR=  1.1901  1.1905\n",
+       "1       GBP=  1.3904  1.3908\n",
+       "2      DUMMY    <NA>    <NA>"
+      ]
+     },
+     "execution_count": 10,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# Define our Streaming Price object\n",
+    "mixed = rd.content.pricing.Definition(\n",
+    "    ['EUR=', 'GBP=', 'DUMMY'],\n",
+    "    fields=['BID', 'ASK']\n",
+    ").get_stream()\n",
+    "# Open the Stream - Once opened, the library starts caching the updates\n",
+    "state = mixed.open()\n",
+    "mixed.get_snapshot()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "You can check the Status of any instrument, so lets check the invalid one"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<StreamState.Open: 3>"
+      ]
+     },
+     "execution_count": 11,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "mixed['DUMMY'].state"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "For an invalid instrument you should see:   \n",
+    "{'status': <StreamState.Closed: 1>, **'code': 'NotFound'**, 'message': '** The Record could not be found'}   \n",
+    "However, if you are not licensed for the instrument you would see something like:  \n",
+    "{'status': <StreamState.Closed: 1>, **'code': 'NotEntitled'**, 'message': 'A21: DACS User Profile denied access to vendor'}   \n",
+    "**NOTE**: Do not rely on the message text to remain unchanged, use the **code** value for any programmatic decision making."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Close the session"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 12,
+   "metadata": {
+    "pycharm": {
+     "name": "#%%\n"
+    }
+   },
+   "outputs": [],
+   "source": [
+    "close_session()"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "RevData39",
+   "language": "python",
+   "name": "rd39"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.9.4"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}
