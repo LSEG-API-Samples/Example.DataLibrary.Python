@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode/settings.json
+2.Content/2.2-Pricing/refinitiv-data.config.json
+Configuration/refinitiv-data.config.json
