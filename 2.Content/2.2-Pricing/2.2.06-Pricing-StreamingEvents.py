@@ -6,17 +6,18 @@
 
 import refinitiv.data as rd
 from refinitiv.data._data.legacy import get_default_session, set_default_session
-from refinitiv.data.delivery import omm_item_stream
+from refinitiv.data.delivery import endpoint_request
 import datetime
 import json
 import time
 import logging.config
 import configparser as cp
 import asyncio
+import os
 
-APP_KEY                     = 'YOUR_APP_KEY'
-RDP_LOGIN                   = 'YOUR_REFINITIV_DATA_PLATFORM_LOGIN'
-RDP_PASSWORD                = 'YOUR_REFINITIV_DATA_PLATFORM_PASSWORD'
+APP_KEY                     = os.environ['APP_KEY'] # 'YOUR_APP_KEY'
+RDP_LOGIN                   = os.environ['RDP_LOGIN'] # 'YOUR_REFINITIV_DATA_PLATFORM_LOGIN'
+RDP_PASSWORD                = os.environ['RDP_PASSWORD'] # 'YOUR_REFINITIV_DATA_PLATFORM_PASSWORD'
 DEPLOYED_PLATFORM_HOST      = 'THE_HOST:PORT_OF_YOUR_DEPLOYED_PLATFORM'  # e.g. 'myADS:15000'
 DEPLOYED_PLATFORM_USER_NAME = 'YOUR_USER_NAME_ON_YOUR_DEPLOYED_PLATFORM' # DACS user name 
 
@@ -81,12 +82,12 @@ def handle_status(streaming_prices, instrument_name, status):
 # Our main code section
 
 # Open a session using the helper functions in the above Credentials section
-open_session('deployed')
+open_session('rdp')
 
 # Define our Streaming Price object
 streams = rd.content.pricing.Definition(
-    ['EUR=', 'GBP=', 'JPY=', 'BADRIC'],
-    fields=['BID', 'ASK']
+    ['EUR=', 'GBP=', 'JPY='],
+    fields=['BID', 'ASK','BID_NET_CH','IRGPRC']
 ).get_stream()
 
 # Callback for if we wanted to handle invidiual Refresh for each item
