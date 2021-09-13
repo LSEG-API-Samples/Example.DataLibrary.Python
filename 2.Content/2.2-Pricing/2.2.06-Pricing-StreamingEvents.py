@@ -14,18 +14,24 @@ import logging.config
 import configparser as cp
 import asyncio
 import os
+from dotenv import load_dotenv
 
-APP_KEY                     = os.environ['APP_KEY'] # 'YOUR_APP_KEY'
-RDP_LOGIN                   = os.environ['RDP_LOGIN'] # 'YOUR_REFINITIV_DATA_PLATFORM_LOGIN'
-RDP_PASSWORD                = os.environ['RDP_PASSWORD'] # 'YOUR_REFINITIV_DATA_PLATFORM_PASSWORD'
-DEPLOYED_PLATFORM_HOST      = 'THE_HOST:PORT_OF_YOUR_DEPLOYED_PLATFORM'  # e.g. 'myADS:15000'
-DEPLOYED_PLATFORM_USER_NAME = 'YOUR_USER_NAME_ON_YOUR_DEPLOYED_PLATFORM' # DACS user name 
+# load credentials from a .env file (+ override any OS system env vars of the same name)
+load_dotenv(dotenv_path='c:/Refinitiv/.env',override=True)
+
+
+APP_KEY                     = os.environ['APP_KEY']       # 'YOUR APP_KEY'
+RDP_LOGIN                   = os.environ['RDP_LOGIN']     # 'YOUR REFINITIV DATA PLATFORM_LOGIN' e.g. 'GE-A-01234567-8-9101'
+RDP_PASSWORD                = os.environ['RDP_PASSWORD']  # 'YOUR REFINITIV DATA PLATFORM PASSWORD' (the long password)
+DEPLOYED_PLATFORM_HOST      = os.getenv('DEPLOYED_PLATFORM_HOST')       # YOUR DEPLOYED SERVER:PORT e.g. 'myADS:15000'
+DEPLOYED_PLATFORM_USER_NAME = os.getenv('DEPLOYED_PLATFORM_USER_NAME')  # YOUR DACS user name 
+
 
 # Some Global variables
 session=None # Our session
 
-# Run for 180 seconds
-exit_time = time.time() + 180 
+# Run for 60 seconds
+exit_time = time.time() + 60 
 
 
 def open_session(session_type=None):
