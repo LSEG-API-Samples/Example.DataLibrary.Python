@@ -1,72 +1,21 @@
 # Refinitiv Data Platform Library for Python
-## Delivery - OMMItemStream - Market Price data via callback inside a Python Script
+# This demonstrates how to use the content pricing interface to request streaming Quote and Trade data
+# via a Script as opposed to running in a Jupyter Notebook
 
-#This demonstrates how to use the OMM Item Stream interface to request streaming Quote and Trade data
-#via a Script as opposed to running in a Jupyter Notebook
-
+# As these tutorial Notebooks are categorised into sub-folders and to avoid the need for multiple config files, we will use the
+# _RD_LIB_CONFIG_PATH_ environment variable to point to a single instance of the config file in the 
+# top-level ***Configuration*** folder.
+# Before proceeding, please **ensure you have entered your credentials** into the config file in the ***Configuration*** folder.
+import os
+os.environ["RD_LIB_CONFIG_PATH"] = "../../../Configuration"
 import refinitiv.data as rd
-from refinitiv.data._data.legacy import get_default_session, set_default_session
-from refinitiv.data.delivery import endpoint_request
 import datetime
 import json
 import time
-import logging.config
-import configparser as cp
 import asyncio
-import os
-from dotenv import load_dotenv
 
-# load credentials from a .env file (+ override any OS system env vars of the same name)
-load_dotenv(dotenv_path='c:/Refinitiv/.env',override=True)
-
-
-APP_KEY                     = os.environ['APP_KEY']       # 'YOUR APP_KEY'
-RDP_LOGIN                   = os.environ['RDP_LOGIN']     # 'YOUR REFINITIV DATA PLATFORM_LOGIN' e.g. 'GE-A-01234567-8-9101'
-RDP_PASSWORD                = os.environ['RDP_PASSWORD']  # 'YOUR REFINITIV DATA PLATFORM PASSWORD' (the long password)
-DEPLOYED_PLATFORM_HOST      = os.getenv('DEPLOYED_PLATFORM_HOST')       # YOUR DEPLOYED SERVER:PORT e.g. 'myADS:15000'
-DEPLOYED_PLATFORM_USER_NAME = os.getenv('DEPLOYED_PLATFORM_USER_NAME')  # YOUR DACS user name 
-
-
-# Some Global variables
-session=None # Our session
-
-# Run for 60 seconds
-exit_time = time.time() + 60 
-
-
-def open_session(session_type=None):
-    session = get_default_session()
-    if session is None:
-        if session_type == "desktop":
-            session = rd.session.desktop.Definition(APP_KEY).get_session()
-        elif session_type == "rdp":
-            session = rd.session.platform.Definition(
-                app_key=APP_KEY,
-                grant=rd.session.platform.GrantPassword(
-                    username=RDP_LOGIN,
-                    password=RDP_PASSWORD
-                )
-            ).get_session()
-        elif session_type == "deployed":
-            session = rd.session.platform.Definition(
-                app_key=APP_KEY,
-                deployed_platform_host = DEPLOYED_PLATFORM_HOST,
-                deployed_platform_username = DEPLOYED_PLATFORM_USER_NAME
-            ).get_session()
-
-    if session is None:
-        raise Exception(f"Wrong session_type: {session_type}. It must be ['desktop', 'rdp', 'deployed']")
-    else:
-        #session.set_log_level(logging.DEBUG)
-        session.set_log_level(logging.WARNING)
-        set_default_session(session)
-        session.open()
-        return session
-    
-def close_session():
-    session = get_default_session()
-    if session:
-        session.close()
+# Run the example for 30 seconds
+exit_time = time.time() + 30 
 
 # Callback function to display data or status events
 # Function to handle the intial Refresh for each item
@@ -88,7 +37,7 @@ def handle_status(streaming_prices, instrument_name, status):
 # Our main code section
 
 # Open a session using the helper functions in the above Credentials section
-open_session('rdp')
+rd.open_session()
 
 # Define our Streaming Price object
 streams = rd.content.pricing.Definition(
@@ -114,4 +63,4 @@ while (time.time() < exit_time):
     asyncio.get_event_loop().run_until_complete(asyncio.sleep(1))
     
 streams.close()
-close_session()
+rd.close_session()
