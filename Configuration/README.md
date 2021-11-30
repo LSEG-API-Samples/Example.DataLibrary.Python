@@ -12,10 +12,6 @@ Based on this stack of interfaces, the examples defined within this section have
 
 ### **Configuration**
 
-The Configuration folder contains the configuration file - ***refinitiv-data.config.json*** - for the Refinitiv Data Library for Python. Before running any of the tutorials, you must modify this file depending on the access channel and connection parameters that you will use to connect to the Refinitiv Data Platform. This necessary configuration step is explained in the [Quick Start guide](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start)
+This Configuration folder contains the configuration file - ***refinitiv-data.config.json*** - for the Refinitiv Data Library for Python. Before running any of the tutorials, you must modify this file depending on the access channel and connection parameters that you will use to connect to the Refinitiv Data Platform. This necessary configuration step is explained in the [Quick Start guide](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start)
 
-### **Quick Start**
-
-The *Quick Start* notebook focuses on choosing the correct session type (Platform/Desktop/Deployed) and establishing a connection to validate your credentials/connectivity parameters.
-
-The tutorials should be used in conjunction with the **Tutorials** and **Documentation** available on the [Refinitiv Developer Portal](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python)
+The accompanying tutorials should be used in conjunction with the **Tutorials** and **Documentation** available on the [Refinitiv Developer Portal](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python)
