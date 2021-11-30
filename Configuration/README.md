@@ -1,6 +1,6 @@
 # Refinitiv Data Library for Python
 
-## Summary
+## Summary  
 
 These Python tutorials demonstrate how to programmatically access content residing within the **Refinitiv Data Platform (RDP)** using a single, ease of use Library called the **Refinitiv Data Library for Python**.  The platform refers to the layer of data services providing both streaming and non-streaming content serving different clients, from the simple desktop interface to the enterprise application. 
 
