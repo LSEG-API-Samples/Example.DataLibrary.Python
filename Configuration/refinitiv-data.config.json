@@ -19,18 +19,18 @@
                 "username": "YOUR RDP LOGIN OR MACHINE GOES HERE!",
                 "password": "YOUR RDP PASSWORD GOES HERE!"
             },
-			"deployed": {
-				"app-key": "YOUR APP KEY GOES HERE!",
-				"realtime-distribution-system": {
-					"url" : "YOUR DEPLOYED HOST:PORT GOES HERE!",
-					"dacs" : {
-						"username" : "YOUR DACS ID GOES HERE!",
-						"application-id" : 256,
-						"position" : ""
-					}
-				}
-			}
-		},
+            "deployed": {
+                "app-key": "YOUR APP KEY GOES HERE!",
+                "realtime-distribution-system": {
+                    "url" : "YOUR DEPLOYED HOST:PORT GOES HERE!",
+                    "dacs" : {
+                        "username" : "YOUR DACS ID GOES HERE!",
+                        "application-id" : 256,
+                        "position" : ""
+                    }
+                }
+            }
+        },
         "desktop": {
             "workspace": {
                 "app-key": "YOUR APP KEY GOES HERE!"
