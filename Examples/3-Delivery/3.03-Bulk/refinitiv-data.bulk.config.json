@@ -1,0 +1,55 @@
+{
+    "bulk": {
+        "esg": {
+            "standard_scores": {
+                "package": {
+                    "bucket": "ESG",
+                    "name": "RFT-ESG-Scores-Wealth-Standard",
+                    "download": {
+                        "path": "./downloads/esg/standard_scores",
+                        "auto-retry": {
+                            "enabled": true,
+                            "count": 3
+                        },
+                        "auto-extract": true
+                    }
+                },
+                "db": {
+                    "connection": {
+                        "module": "sqlite3",
+                        "parameters": {
+                            "database": "file::memory:?cache=shared"
+                        }
+                    },
+                    "table-auto-creation": true,
+                    "create-table-queries": [
+                        {
+                            "table-name": "MY_STANDARD_SCORES_TABLE",
+                            "create-query": "CREATE TABLE IF NOT EXISTS MY_STANDARD_SCORES_TABLE(ORGANIZATION varchar(255),INSERT_DATE varchar(255), INSTRUMENT varchar(255), PERIOD_END_DATE varchar(255), ESG_C_SCORE varchar(255),ESG_SCORE varchar(255),ENVIRONMENT_PILLAR_SCORE varchar(255), SOCIAL_PILLAR_SCORE varchar(255), GOVERNANCE_PILLAR_SCORE varchar(255), CONSTRAINT UC_MY_STANDARD_SCORES UNIQUE (INSTRUMENT,PERIOD_END_DATE))",
+                            "check-if-exists-query": "SELECT name FROM sqlite_master WHERE type='table'"
+                        }
+                    ],
+                    "search-query": "SELECT * FROM MY_STANDARD_SCORES_TABLE WHERE INSTRUMENT IN #universe#",
+                    "insert-queries": [
+                        "REPLACE INTO MY_STANDARD_SCORES_TABLE(ORGANIZATION, INSERT_DATE, INSTRUMENT, PERIOD_END_DATE, ESG_C_SCORE, ESG_SCORE,ENVIRONMENT_PILLAR_SCORE, SOCIAL_PILLAR_SCORE, GOVERNANCE_PILLAR_SCORE)VALUES ('#Fields.ESGOrganization.Names.Name.OrganizationName.0.OrganizationNormalizedName#', '#File.DateTime#','#Fields.StatementDetails.OrganizationId#', '#Fields.StatementDetails.FinancialPeriodEndDate#','#Fields.ESGScores.ESGCombinedScore.Value#', '#Fields.ESGScores.ESGScore.Value#','#Fields.ESGScores.EnvironmentPillarScore.Value#', '#Fields.ESGScores.SocialPillarScore.Value#','#Fields.ESGScores.GovernancePillarScore.Value#')"
+                    ],
+                    "stop-on-error": false,
+                    "clean-up-queries": [
+                        "DELETE FROM MY_STANDARD_SCORES_TABLE"
+                    ],
+                    "output-fields-mapping": {
+                        "ORGANIZATION": "OrganizationName",
+                        "INSERT_DATE": "InsertDate",                        
+                        "INSTRUMENT": "Instrument",
+                        "PERIOD_END_DATE": "PeriodEndDate",
+                        "ESG_C_SCORE": "TR.TRESGCScore",
+                        "ESG_SCORE": "TR.TRESGScore",
+                        "ENVIRONMENT_PILLAR_SCORE": "TR.EnvironmentPillarScore",
+                        "SOCIAL_PILLAR_SCORE": "TR.SocialPillarScore",
+                        "GOVERNANCE_PILLAR_SCORE": "TR.GovernancePillarScore"
+                    }
+                }
+            }
+        }
+    }    
+}
