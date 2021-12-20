@@ -18,7 +18,7 @@ The organisation of this section is based on these layers so that you can quickl
 
 ## Learn more
 
- To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/learning), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/docs) and much more.
+To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/tutorials), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/documentation) and much more.Ò
 
 ## Help and Support
 

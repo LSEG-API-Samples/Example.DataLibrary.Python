@@ -17,7 +17,7 @@ The *Quick Start* example focuses on choosing the correct session type (Platform
 
 ### **Tutorials**
 
-The Tutorials section provides a set of basic examples that walk you through the some layers of the library and show how to retrieve content sets using the Refinitiv Data Library. These examples should be used in conjunction with the [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/learning) available on the Refinitiv Developer Portal.
+The Tutorials section provides a set of basic examples that walk you through the some layers of the library and show how to retrieve content sets using the Refinitiv Data Library. These examples should be used in conjunction with the [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/tutorials) available on the Refinitiv Developer Portal.
 
 
 ### **Examples**
@@ -30,7 +30,7 @@ This folder contains the configuration file of the Refinitiv Data Library for Py
 
 ## Learn more
 
- To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/learning), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/docs) and much more.
+To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/tutorials), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/documentation) and much more.
 
 ## Help and Support
 
