@@ -1,9 +1,6 @@
-----
 <img src="../files/refinitiv.png" width="20%" style="vertical-align: top;">
 
 # Data Library for Python
-
-----
 
 ## Summary
 
@@ -19,8 +16,6 @@ The library provides multiple layers of abstraction allowing for different style
 
 The organisation of this section is based on these layers so that you can quickly find the examples that best suit your specific use case.
 
-----
-
 ## Learn more
 
  To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/learning), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/docs) and much more.
@@ -28,5 +23,3 @@ The organisation of this section is based on these layers so that you can quickl
 ## Help and Support
 
 If you have any questions regarding using the API, please post them on the [Refinitiv Data Q&A Forum](https://community.developers.refinitiv.com/spaces/321/index.html). The Refinitiv Developer Community will be very pleased to help you. 
-
-----

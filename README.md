@@ -1,9 +1,6 @@
-----
 <img src="files/refinitiv.png" width="20%" style="vertical-align: top;">
 
 # Data Library for Python
-
-----
 
 ## Summary
 
@@ -31,8 +28,6 @@ This section contains additional [examples](./Examples/README.md) to supplement 
 
 This folder contains the configuration file of the Refinitiv Data Library for Python. Before running any of the examples described above, you must modify this file depending on the access channel and connection parameters that you will use to connect to the Refinitiv Data Platform. This necessary configuration step is explained in the [Quick Start guide](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start) 
 
-----
-
 ## Learn more
 
  To learn more about the Refinitiv Data Library for Python simply log into the Refinitiv Developer Community. By [registering](https://developers.refinitiv.com/iam/register) and [logging in](https://developers.refinitiv.com/content/devportal/en_us/initCookie.html) to the Refinitiv Developer Community portal you will have free access to a number of learning materials such as [Quick Start guides](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/quick-start), [Tutorials](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/learning), [Documentation](https://developers.refinitiv.com/en/api-catalog/refinitiv-data-platform/refinitiv-data-library-for-python/docs) and much more.
@@ -41,4 +36,3 @@ This folder contains the configuration file of the Refinitiv Data Library for Py
 
 If you have any questions regarding using the API, please post them on the [Refinitiv Data Q&A Forum](https://community.developers.refinitiv.com/spaces/321/index.html). The Refinitiv Developer Community will be very pleased to help you.
 
-----
