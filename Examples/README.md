@@ -1,4 +1,9 @@
-# Refinitiv Data Library for Python
+----
+<img src="../files/refinitiv.png" width="20%" style="vertical-align: top;">
+
+# Data Library for Python
+
+----
 
 ## Summary
 
@@ -14,6 +19,7 @@ The library provides multiple layers of abstraction allowing for different style
 
 The organisation of this section is based on these layers so that you can quickly find the examples that best suit your specific use case.
 
+----
 
 ## Learn more
 
@@ -22,3 +28,5 @@ The organisation of this section is based on these layers so that you can quickl
 ## Help and Support
 
 If you have any questions regarding using the API, please post them on the [Refinitiv Data Q&A Forum](https://community.developers.refinitiv.com/spaces/321/index.html). The Refinitiv Developer Community will be very pleased to help you. 
+
+----
