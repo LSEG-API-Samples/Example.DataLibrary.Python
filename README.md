@@ -6,8 +6,6 @@
 
 This repository provides a series examples that demonstrate how to programmatically access content residing within the **Refinitiv Data Platform (RDP)** using a single, ease of use software library called the **Refinitiv Data Library for Python**. This library is supported and maintained by Refinitiv and is available on PyPi at https://pypi.org/project/refinitiv-data/
 
-## NOTE: The links to the Refinitiv DevPortal Quick Start, Tutorials, Documentation etc are not yet active. We hope to publish the materials in the coming weeks. This NOTE will be removed once published.
-
 The series of examples have been organized as follows:
 
 ### **Quick Start**
