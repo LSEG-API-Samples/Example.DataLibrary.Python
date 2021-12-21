@@ -1,4 +1,6 @@
-# Refinitiv Data Library for Python
+<img src="../../files/refinitiv.png" width="20%" style="vertical-align: top;">
+
+# Data Library for Python
 
 ## Summary  
 
