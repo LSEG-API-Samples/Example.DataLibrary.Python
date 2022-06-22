@@ -3,8 +3,8 @@
         "esg": {
             "standard_scores": {
                 "package": {
-                    "bucket": "ESG",
-                    "name": "RFT-ESG-Scores-Wealth-Standard",
+                    "bucket": "bulk-ESG",
+                    "name": "Bulk-ESG-Global-Scores-Wealth-Standard-v1",
                     "download": {
                         "path": "./downloads/esg/standard_scores",
                         "auto-retry": {
