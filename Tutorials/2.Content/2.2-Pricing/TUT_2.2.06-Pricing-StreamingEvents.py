@@ -19,20 +19,21 @@ exit_time = time.time() + 30
 
 # Callback function to display data or status events
 # Function to handle the intial Refresh for each item
-def handle_refresh(streaming_prices, instrument_name, fields):
+def handle_refresh(fields, instrument_name, streaming_prices):
     # One way to access data - get dataframe
     print(f"Refresh : {streaming_prices.get_snapshot()}")
     return
 
 # Function to update dataframe, when we receive updates for individual items
-def handle_update(streaming_prices, instrument_name, fields):
+def handle_update(fields, instrument_name, streaming_prices):
     # Alternative way of accesing data - access the updated fields
     print(f"Update : {instrument_name}:{fields}")
     
 # Function to extract status code for an item as & when received from server
 # Status contains a 'code' and a more detailed 'message'
-def handle_status(streaming_prices, instrument_name, status):
-    print(f"Status : {instrument_name}:{status['code']}:{status['message']}")
+def handle_status(status, instrument_name, streaming_prices):
+    state=status['State']
+    print(f"Status : {instrument_name}:{state['Code']}:{state['Text']}")
 
 # Our main code section
 
