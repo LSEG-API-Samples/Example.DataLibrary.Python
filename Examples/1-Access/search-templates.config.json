@@ -1,0 +1,89 @@
+{
+    "search": {
+        "templates": {
+
+            "Equity": {
+                "description": "Search for Ordinary Shares of a particular exchange.",
+                "parameters": {
+                    "what": {
+                        "description": "What to search for",
+                        "default": ""
+                    },
+                    "exchange_name": {
+                        "description": "Name of the exchange where this equity is traded. For example: 'London Stock Exchange', 'Euronext Paris', 'Shanghai Stock Exchange', 'The Toronto Stock Exchange', 'NYSE Consolidated', etc."
+                    }
+                },
+                "request_body": {
+                   "Query":"#{what}",
+                   "Filter":"AssetState ne 'DC' and SearchAllCategoryv2 eq 'Equities' and ExchangeName xeq '#{exchange_name}' and RCSAssetCategoryGenealogy eq 'A:1L'",
+                   "Select": "DTSubjectName,ExchangeName,RIC,MktCapCompanyUsd,ShareholdersEquityUsd,Pe,DebtToAssets,Beta,Eps,Gics,EpsGrowth5Y,RevenueGrowth5Y,DivYld,EstDivYldFy1,EstDivYldFy2,TotalAssetsUsd,TotalLiabilitiesUsd,PretaxProfitMargin,Roe,PeRelIndex,DivYldHigh,DivYldRelIndex,SolvencyMargin,PricePctChg3MRelIndex,PricePctChgYtdRelIndex,Volatility30D,Volatility200D,EstEpsFy1,EstEpsFy2,ExDividendDate,RCSIssuerCountryLeaf,RCSIssuerCountryGenealogy,RCSAssetCategoryGenealogy,SearchAllCategoryv3,SearchAllCategoryv2,SearchAllCategory,RCSAssetCategory,RCSCurrencyLeaf,AssetState,BusinessEntity,PI,IssueISIN,CUSIP,CinCUSIP,SEDOL",
+                   "Top":5000,
+                   "Skip":0,
+                   "GroupCount":3,
+                   "View":"EquityQuotes"
+                }
+            },
+            
+            "Mines": {
+                "description": "Find coordinates of mines in a region.",
+                "parameters": {
+                    "commodity": {
+                        "description": "Commodity extracted from the mine. For example: 'Gold', 'Nickel', 'Zinc', 'Cooper', 'Palladium', 'Lead', etc.",
+                        "default": "Gold"
+                    },
+                    "region": {
+                        "description": "Region to search in. For example: 'Botswana', 'Brazil', 'Canada', 'Chile', 'Costa Rica', 'Cuba', 'United States', 'Guyana', 'Peru', 'South Africa', etc",
+                        "default": "South Africa"
+                    }                    
+                },
+                "request_body": {
+                   "Filter":"RCSAssetTypeLeaf eq 'Mine' and RCSCommodityTypeLeaf xeq '#{commodity}' and RCSRegionLeaf eq '#{region}'",
+                   "Select":"RIC,DTSubjectName,Latitude,Longitude,PhysicalAssetStatus",
+                   "Top":100,
+                   "Skip":0,
+                   "GroupCount":3,
+                   "View":"PhysicalAssets"
+                }
+            },
+            
+            "VesselsBoundFor": {
+                "description": "Search for vessels heading to a destination.",
+                "request_body": {
+                   "Filter":"DestinationPort eq '#{destination}' and AISStatus ne null and AISStatus ne 'Moored' and AISStatus ne '*defined*'",
+                   "OrderBy":"GrossTonnage desc",
+                   "Select":"RIC,DTSubjectName,DTSimpleType,Latitude,Longitude,AISStatus,GrossTonnage",
+                   "Top":200,
+                   "Skip":0,
+                   "GroupCount":3,
+                   "View":"VesselPhysicalAssets"
+                },
+                "parameters": {
+                    "destination": {
+                        "default": "Le Havre",
+                        "description": "Vessel's destination"
+                    }
+                }
+            },
+            
+            
+            
+            
+            "Exchanges": {
+                "description": "Search for exchanges.",
+                "parameters": {
+                    "name": {
+                        "description": "Name of the exchange to search for.",
+                        "default": ""
+                    }
+                },
+                "request_body": {
+                   "Query": "#{name}",
+                   "View":"SearchAll",
+                   "Top":10
+                }
+            }            
+            
+            
+        }
+    }
+}
