@@ -1,0 +1,40 @@
+{
+    "logs": {
+        "level": "debug",
+        "transports": {
+            "console": {
+                "enabled": false
+            },
+            "file": {
+                "enabled": false,
+                "name": "lseg-data-lib.log"
+            }
+        }
+    },
+    "sessions": {
+        "default": "platform.ldp",
+        "platform": {
+            "ldp": {
+                "app-key": "YOUR APP KEY GOES HERE!",
+                "username": "YOUR LDP LOGIN OR MACHINE GOES HERE!",
+                "password": "YOUR LDP PASSWORD GOES HERE!"
+            },
+            "deployed": {
+                "app-key": "YOUR APP KEY GOES HERE!",
+                "realtime-distribution-system": {
+                    "url" : "YOUR DEPLOYED HOST:PORT GOES HERE!",
+                    "dacs" : {
+                        "username" : "YOUR DACS ID GOES HERE!",
+                        "application-id" : 256,
+                        "position" : ""
+                    }
+                }
+            }
+        },
+        "desktop": {
+            "workspace": {
+                "app-key": "YOUR APP KEY GOES HERE!"
+            }
+        }
+    }
+}

@@ -4,8 +4,8 @@
         "platform": {
             "my-custom-session": {
                 "app-key": "YOUR APP KEY GOES HERE!",
-                "username": "YOUR RDP LOGIN OR MACHINE GOES HERE!",
-                "password": "YOUR RDP PASSWORD GOES HERE!"
+                "username": "YOUR LDP LOGIN OR MACHINE GOES HERE!",
+                "password": "YOUR LDP PASSWORD GOES HERE!"
             }
         }
     }

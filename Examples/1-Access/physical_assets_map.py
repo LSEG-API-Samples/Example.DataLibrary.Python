@@ -1,5 +1,7 @@
 from ipyleaflet import Map, Marker,basemaps,LayersControl,ScaleControl,FullScreenControl,basemap_to_tiles,SplitMapControl,SearchControl
 import pandas
+import numpy as np
+
 class PhysicalAssetsMap():
     def __init__(self,zoom=None):
         #self.right_layer = basemap_to_tiles(basemaps.NASAGIBS.ModisTerraTrueColorCR, "2017-04-08")
@@ -24,6 +26,11 @@ class PhysicalAssetsMap():
             zoom=self.zoom))
         self.map = m
 
+    @staticmethod
+    def _isnan(value):
+        if type(value) != str and (type(value) == pandas._libs.missing.NAType or np.isnan(value)):
+            return True
+        return False
 
     def plot(self,df):
         count = 0
@@ -33,10 +40,9 @@ class PhysicalAssetsMap():
             return self
 
         for index,row in df.iterrows():
-            name = row['DTSubjectName']
             lat = row['Latitude']
             lon = row['Longitude']
-            if type(lat) == pandas._libs.missing.NAType or type(lon) == pandas._libs.missing.NAType:
+            if PhysicalAssetsMap._isnan(lat) or PhysicalAssetsMap._isnan(lon):
                 continue
             if center is None:
                 center = (lat,lon)
@@ -47,9 +53,11 @@ class PhysicalAssetsMap():
 
         for index,row in df.iterrows():
             name = row['DTSubjectName']
+            if PhysicalAssetsMap._isnan(name):
+                name = ''
             lat = row['Latitude']
             lon = row['Longitude']
-            if type(lat) == pandas._libs.missing.NAType or type(lon) == pandas._libs.missing.NAType:
+            if PhysicalAssetsMap._isnan(lat) or PhysicalAssetsMap._isnan(lon):
                 continue
             count+= 1
             marker = Marker(name=name,location=tuple([lat,lon]), draggable=False)
