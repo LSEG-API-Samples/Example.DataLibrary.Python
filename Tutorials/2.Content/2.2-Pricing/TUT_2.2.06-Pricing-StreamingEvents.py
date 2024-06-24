@@ -1,14 +1,14 @@
-# Refinitiv Data Platform Library for Python
+# LSEG Data Platform Library for Python
 # This demonstrates how to use the content pricing interface to request streaming Quote and Trade data
 # via a Script as opposed to running in a Jupyter Notebook
 
 # As these tutorial Notebooks are categorised into sub-folders and to avoid the need for multiple config files, we will use the
-# _RD_LIB_CONFIG_PATH_ environment variable to point to a single instance of the config file in the 
+# _LD_LIB_CONFIG_PATH_ environment variable to point to a single instance of the config file in the 
 # top-level ***Configuration*** folder.
 # Before proceeding, please **ensure you have entered your credentials** into the config file in the ***Configuration*** folder.
 import os
-os.environ["RD_LIB_CONFIG_PATH"] = "../../../Configuration"
-import refinitiv.data as rd
+os.environ["LD_LIB_CONFIG_PATH"] = "../../../Configuration"
+import lseg.data as ld
 import datetime
 import json
 import time
@@ -38,10 +38,10 @@ def handle_status(status, instrument_name, streaming_prices):
 # Our main code section
 
 # Open a session using the helper functions in the above Credentials section
-rd.open_session()
+ld.open_session()
 
 # Define our Streaming Price object
-streams = rd.content.pricing.Definition(
+streams = ld.content.pricing.Definition(
     ['EUR=', 'GBP=', 'JPY='],
     fields=['BID', 'ASK','BID_NET_CH','IRGPRC']
 ).get_stream()
@@ -64,4 +64,4 @@ while (time.time() < exit_time):
     asyncio.get_event_loop().run_until_complete(asyncio.sleep(1))
     
 streams.close()
-rd.close_session()
+ld.close_session()
