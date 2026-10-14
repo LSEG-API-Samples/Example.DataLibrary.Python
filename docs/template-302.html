@@ -1,0 +1,44 @@
+<h1 id="configuration">Configuration</h1>
+<p><code>load_config</code> loads the user&#39;s config file and sets this file as default. <code>get_config</code> gets the library configuration.</p>
+<p>Import the library as <code>import lseg.data as ld</code> and call <code>ld.load_config(...)</code> and <code>ld.get_config()</code>.</p>
+<h3 id="load_config">load_config</h3>
+<p>Load user&#39;s config file and set this file as default.</p>
+<pre><code class="language-python">load_config(path: str | None) -&gt; _RDPConfig
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>path</code></td>
+<td><code>str | None</code></td>
+<td>Yes</td>
+<td>Path to user&#39;s config file.</td>
+</tr>
+</tbody></table>
+<p>Returns: config object</p>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Exception</code></td>
+<td>If can&#39;t find file by path that user provided</td>
+</tr>
+</tbody></table>
+<h3 id="get_config">get_config</h3>
+<p>Gets the library configuration. The configuration is loaded from the configuration files on first use.</p>
+<pre><code class="language-python">get_config() -&gt; _RDPConfig
+</code></pre>
+<p>Returns: config object. Current configuration.</p>
+<!-- Maintainer review required: (1) [sdk-decision] Both functions return _RDPConfig, a class whose name starts with an underscore and which is not exported by the SDK; its members are not documented here. Ask the SDK owners what users are meant to do with the returned object. (2) [sdk-fix] Neither docstring has an example, and no example was found in the SDK README. (3) [confirm] What a config file contains, and where the library looks for it by default, is not described in these docstrings. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.get_config and lseg.data.load_config. -->

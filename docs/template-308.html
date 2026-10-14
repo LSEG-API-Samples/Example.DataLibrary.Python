@@ -1,0 +1,157 @@
+<h1 id="sessions">Sessions</h1>
+<p>Accessing the Data Platform to retrieve content requires your application to authenticate and manage connection semantics to keep the user session live. LSEG Data Libraries provide this managed access through an interface called a session. The session is the interface to the data platform and is responsible for defining authentication details, managing connection resources, and implementing the necessary protocol to communicate with the data platform. Depending on the access point your application uses to connect to the platform, it can choose from one of the session implementations to initiate the connection. For the creation phase, all session implementations expose the same API and behave in the same way.</p>
+<!-- Source of the paragraph above: the docstring of the module lseg.data.session (tag v2.2.3), copied verbatim without its title line "Session layer.". -->
+
+<p>The session types are defined in <code>lseg.data.session.desktop</code>, <code>lseg.data.session.desktopdirect</code> and <code>lseg.data.session.platform</code>. They all extend one common base class, <code>lseg.data.session.Session</code>, which is not created directly: the members listed below are available on every session you create.</p>
+<!-- Maintainer review required [sdk-decision]: the repo owner stated on 2026-10-13 that lseg.data.session.Session is not a public API but only the base class of the other session types. The source agrees: DesktopSession, DesktopDirectSession, PlatformSession and NullSession all inherit from it (lseg/data/_core/session/_desktop_session.py, _desktop_direct_session.py, _platform_session.py, null_session.py, tag v2.2.3). The SDK nevertheless exports Session in lseg.data.session.__all__, and the class has no docstring. Confirm the wording of this paragraph with the SDK owners. -->
+
+<h3 id="creating-a-session">Creating a session</h3>
+<p><code>lseg.data.session.Definition</code> defines the sessions (either desktop sessions or platform sessions).</p>
+<pre><code class="language-python">Definition(name: str | None = None)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Name of the session to create. This name must refer to a session and the related parameters defined in the configuration file of the library. For example: platform.my-session</td>
+</tr>
+</tbody></table>
+<p><code>Definition.get_session()</code> creates and returns the session. It returns the instance of the defined session.</p>
+<pre><code class="language-python">import lseg.data as ld
+
+platform_session = ld.session.Definition(name=&quot;platform.my-session&quot;).get_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires a library configuration file with a defined session and credentials. The code is the Examples section of the lseg.data.session.Definition docstring (tag v2.2.3). -->
+
+<p>You can also open a session with <code>ld.open_session()</code>, which opens and returns a session.</p>
+<h3 id="default-session">Default session</h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ld.session.get_default() -&gt; Session</code></td>
+<td>Gets the default session.</td>
+</tr>
+<tr>
+<td><code>ld.session.set_default(session: Session) -&gt; None</code></td>
+<td>Set the default session.</td>
+</tr>
+</tbody></table>
+<p><code>set_default</code> takes one parameter, <code>session</code>: the logical session to the data platform.</p>
+<h3 id="methods">Methods</h3>
+<p>These methods are available on every session.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open() -&gt; OpenState</code></td>
+<td>Opens the session.</td>
+</tr>
+<tr>
+<td><code>async open_async() -&gt; OpenState</code></td>
+<td>Opens the session asynchronously.</td>
+</tr>
+<tr>
+<td><code>close() -&gt; OpenState</code></td>
+<td>Closes the session.</td>
+</tr>
+<tr>
+<td><code>async close_async() -&gt; OpenState</code></td>
+<td>Closes the session asynchronously.</td>
+</tr>
+<tr>
+<td><code>on_state(callback)</code></td>
+<td>Registers a defined callback function. Called by the library whenever the state of the session is updated.</td>
+</tr>
+<tr>
+<td><code>on_event(callback)</code></td>
+<td>Registers a defined callback function. Called by the library whenever the event of the session is updated.</td>
+</tr>
+<tr>
+<td><code>set_log_level(log_level)</code></td>
+<td>Sets the level of log messages. By default, logs are disabled.</td>
+</tr>
+<tr>
+<td><code>get_log_level()</code></td>
+<td>Gets the current log level.</td>
+</tr>
+</tbody></table>
+<p><code>open</code>, <code>open_async</code>, <code>close</code> and <code>close_async</code> each return an <code>OpenState</code>; see <a href="#/sections/session-layer/states-and-events">Session states and events</a>.</p>
+<h4 id="on_state-and-on_event">on_state and on_event</h4>
+<pre><code class="language-python">on_state(callback: Callable[[OpenState, str, Session], None]) -&gt; None
+on_event(callback: Callable[[EventCode, dict | str, Session], None]) -&gt; None
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Parameter</th>
+<th>Description of the parameter</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>on_state</code></td>
+<td><code>callback</code></td>
+<td>Callback function or method to be notified of any state change.</td>
+</tr>
+<tr>
+<td><code>on_event</code></td>
+<td><code>callback</code></td>
+<td>Callback function or method to be notified of any event change.</td>
+</tr>
+</tbody></table>
+<p>Both raise <code>TypeError</code> if the user provided an invalid object type.</p>
+<h4 id="set_log_level-and-get_log_level">set_log_level and get_log_level</h4>
+<p><code>set_log_level(log_level: int | str)</code> sets the level of log messages. By default, logs are disabled.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>log_level</code></td>
+<td>Log level value. Possible values are : [CRITICAL, FATAL, ERROR, WARNING, WARN, INFO, DEBUG, NOTSET]</td>
+</tr>
+</tbody></table>
+<p><code>get_log_level()</code> gets the current log level. It returns an <code>int</code>: the current log level of the session logger.</p>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>app_key</code></td>
+<td>Returns the application id.</td>
+</tr>
+<tr>
+<td><code>open_state</code></td>
+<td>Returns the session state.</td>
+</tr>
+</tbody></table>
+<!-- Maintainer review required [sdk-decision]: the public members below have no docstring, so they are not documented above. Decide which are meant for application use before adding them. Constructor: Session(app_key, on_state=None, on_event=None, token=None, deployed_platform_username=None, dacs_position=None, dacs_application_id=None, name='default', proxies=None, app_name=None) (not documented because Session is a base class and is not created directly). Methods: class_logger (static), http_request, http_request_async (async), logger, update_access_token, verify_scope. Properties: config, name, server_mode, session_id, stream_auto_reconnection, type. Attribute: http_request_timeout_secs. Base classes of Session: contextlib.AbstractContextManager and contextlib.AbstractAsyncContextManager (no documentation says whether sessions are meant to be used in a with / async with statement). -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.session.Session, lseg.data.session.Definition, lseg.data.session.get_default, lseg.data.session.set_default, and the module docstring of lseg.data.session. Link to the open_session, desktop, desktopdirect and platform session pages when they exist. -->

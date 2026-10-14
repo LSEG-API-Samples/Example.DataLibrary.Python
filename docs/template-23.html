@@ -1,0 +1,37 @@
+<h1 id="pricingstream">PricingStream</h1>
+<p><code>PricingStream</code> is returned by <a href="#/sections/access-layer/open-pricing-stream">open_pricing_stream</a>. It is available as <code>lseg.data.PricingStream</code>.</p>
+<!-- Maintainer review required [sdk-fix]: this page is deliberately thin. The PricingStream class has no docstring and none of its public members has one, so the SDK gives no description of what a pricing stream is or how its methods behave. Everything below comes from the member signatures. Ask the SDK owners for descriptions (or an official example) before this page is published. The one sentence above comes from the Returns section of the open_pricing_stream docstring. -->
+
+<h3 id="methods">Methods</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>open(with_updates: bool = True) -&gt; OpenState</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>close() -&gt; OpenState</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>get_snapshot(universe: str | list[str] | None = None, fields: list[str] | None = None, convert: bool = True) -&gt; pd.DataFrame</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>add_instruments(*args) -&gt; None</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>remove_instruments(*args) -&gt; None</code></td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>open</code> and <code>close</code> return an <code>OpenState</code>; see <a href="#/sections/session-layer/states-and-events">Session states and events</a>.</p>
+<!-- Maintainer review required [sdk-decision]: no member has a description. The class is constructed as PricingStream(stream: MixedStreams) (MixedStreams is not an exported type), so it is probably created only through open_pricing_stream; the SDK does not say so. The class attribute `recorder` has no description and is not listed. PricingStream is a subclass of contextlib.AbstractContextManager; no documentation says whether it is meant to be used in a with statement. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entry lseg.data.PricingStream (no docstring). -->

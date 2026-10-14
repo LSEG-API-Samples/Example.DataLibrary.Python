@@ -1,0 +1,63 @@
+<h1 id="open_session-and-close_session">open_session and close_session</h1>
+<p><code>open_session</code> opens and returns a session. <code>close_session</code> closes the previously opened session.</p>
+<p>Import the library as <code>import lseg.data as ld</code> and call <code>ld.open_session(...)</code> and <code>ld.close_session()</code>.</p>
+<h3 id="open_session">open_session</h3>
+<p>Opens and returns a session.</p>
+<pre><code class="language-python">open_session(
+    name: str | None = None,
+    app_key: str | None = None,
+    config_name: str | None = None,
+) -&gt; Session
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Session name from the config file.</td>
+</tr>
+<tr>
+<td><code>app_key</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>The application key.</td>
+</tr>
+<tr>
+<td><code>config_name</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>The config name. If provided, overrides default config.</td>
+</tr>
+</tbody></table>
+<p>Returns: <code>Session</code>. The session has the members described in <a href="#/sections/session-layer/session">Sessions</a>.</p>
+<h3 id="close_session">close_session</h3>
+<p>Closes the previously opened session.</p>
+<pre><code class="language-python">close_session() -&gt; None
+</code></pre>
+<p>Returns: <code>None</code></p>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import lseg.data as ld
+
+ld.open_session()
+
+# ... use the library, for example ld.get_data(...)
+
+ld.close_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials, network access and a configuration file. The code follows the "Open a data session" and "Close the session" steps of the SDK README (tag v2.2.3). -->
+
+<!-- Maintainer review required [sdk-fix]: (1) The docstrings do not say how open_session chooses a session type or what is used when `name` is omitted; the page says only what the docstrings say. (2) The docstrings do not say whether open_session makes the returned session the default session (get_default / set_default), although get_data uses the default session. Ask the SDK owners before describing this. (3) The docstrings document no exceptions. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.open_session and lseg.data.close_session. -->

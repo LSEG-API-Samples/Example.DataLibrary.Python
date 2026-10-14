@@ -1,0 +1,87 @@
+<h1 id="open_pricing_stream">open_pricing_stream</h1>
+<p>Creates and opens a pricing stream.</p>
+<p><code>open_pricing_stream</code> is part of the Access layer. Import the library as <code>import lseg.data as ld</code> and call <code>ld.open_pricing_stream(...)</code>. A session must be open first.</p>
+<h3 id="syntax">Syntax</h3>
+<pre><code class="language-python">open_pricing_stream(
+    universe: str | Iterable[str],
+    fields: str | list[str] = None,
+    service: str | None = None,
+    on_data: Callable | None = None,
+) -&gt; PricingStream
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>universe</code></td>
+<td><code>str | Iterable[str]</code></td>
+<td>Yes</td>
+<td></td>
+<td>Instruments to request.</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>str | list[str]</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Fields to request.</td>
+</tr>
+<tr>
+<td><code>service</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Name of the streaming service publishing the instruments.</td>
+</tr>
+<tr>
+<td><code>on_data</code></td>
+<td><code>Callable | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Callback function.</td>
+</tr>
+</tbody></table>
+<h3 id="returns">Returns</h3>
+<p><code>PricingStream</code>; see <a href="#/sections/access-layer/pricing-stream">PricingStream</a>.</p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ValueError</code></td>
+<td>The default session is not open: <code>Session is not opened. Can&#39;t send any request</code></td>
+</tr>
+</tbody></table>
+<!-- Maintainer review required [sdk-fix]: the open_pricing_stream docstring has no Raises section and does not say that a session must be open. Both come from the source: open_pricing_stream calls raise_if_closed(get_default()) first (lseg/data/_access_layer/get_stream.py lines 57-58 and lseg/data/_core/session/tools.py, tag v2.2.3). Confirm with the SDK owners that this is the intended, supported behavior. -->
+
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import lseg.data as ld
+
+
+def callback(updated_data, ric, stream):
+    print(updated_data)
+
+
+pricing_stream = ld.open_pricing_stream(
+    universe=[&#39;EUR=&#39;],
+    fields=[&#39;BID&#39;, &#39;ASK&#39;, &#39;OPEN_PRC&#39;],
+    on_data=callback,
+)
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials, network access and data entitlements. The code is the Examples section of the docstring (tag v2.2.3), reformatted (the trailing `# noqa` comment was removed). -->
+
+<!-- Maintainer review required [sdk-fix]: The docstring describes on_data only as "Callback function." The arguments of the callback (updated_data, ric, stream) come from the example, not from a description. Ask the SDK owners what the callback receives and when it is called. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entry lseg.data.open_pricing_stream. Docstring in lseg/data/_access_layer/get_stream.py. -->

@@ -1,0 +1,117 @@
+<h1 id="get_data">get_data</h1>
+<p>Retrieves pricing snapshots, as well as Fundamental and Reference data.</p>
+<p><code>get_data</code> is part of the Access layer. Import the library as <code>import lseg.data as ld</code> and call <code>ld.get_data(...)</code>. A session must be open first.</p>
+<h3 id="syntax">Syntax</h3>
+<pre><code class="language-python">get_data(
+    universe: str | Iterable[str],
+    fields: str | Iterable[str],
+    parameters: str | dict | None = None,
+    header_type: HeaderType = HeaderType.TITLE,
+) -&gt; DataFrame
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>universe</code></td>
+<td><code>str | Iterable[str]</code></td>
+<td>Yes</td>
+<td></td>
+<td>Instruments to request</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>str | Iterable[str]</code></td>
+<td>Yes</td>
+<td></td>
+<td>Fields to request</td>
+</tr>
+<tr>
+<td><code>parameters</code></td>
+<td><code>str | dict | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Single key=value global parameter or dictionary of global parameters to request</td>
+</tr>
+<tr>
+<td><code>header_type</code></td>
+<td><code>HeaderType</code></td>
+<td>No</td>
+<td><code>HeaderType.TITLE</code></td>
+<td>If HeaderType.TITLE - returns field title as column headers for data<br>If HeaderType.NAME - returns field name as column headers for data<br>If HeaderType.NAME_AND_TITLE - returns field name and title as column headers for data</td>
+</tr>
+</tbody></table>
+<h3 id="returns">Returns</h3>
+<p><code>pandas.DataFrame</code></p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ValueError</code></td>
+<td>The default session is not open: <code>Session is not opened. Can&#39;t send any request</code></td>
+</tr>
+</tbody></table>
+<!-- Maintainer review required [sdk-fix]: the get_data docstring has no Raises section. ValueError is taken from the source, not from documentation: get_data calls raise_if_closed(get_default()) first (lseg/data/_access_layer/get_data_func.py and lseg/data/_core/session/tools.py, tag v2.2.3). Confirm with the SDK owners that this is the intended, supported behavior. -->
+
+<h3 id="example">Example</h3>
+<p>Open a session, retrieve data, close the session:</p>
+<pre><code class="language-python">import lseg.data as ld
+
+ld.open_session()
+
+df = ld.get_data(universe=[&#39;IBM.N&#39;, &#39;VOD.L&#39;], fields=[&#39;BID&#39;, &#39;ASK&#39;])
+print(df)
+
+ld.close_session()
+</code></pre>
+<p>Retrieve fundamental data with global parameters:</p>
+<pre><code class="language-python">df = ld.get_data(
+    universe=[&#39;GOOG.O&#39;, &#39;AAPL.O&#39;],
+    fields=[&#39;TR.EV&#39;, &#39;TR.EVToSales&#39;],
+    parameters={&#39;SDate&#39;: &#39;0CY&#39;, &#39;Curn&#39;: &#39;CAD&#39;},
+)
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials, network access and data entitlements. The code follows the Examples section of the get_data docstring and the "Access layer" example in the SDK README (tag v2.2.3), with the `ld.` prefix added to match the README import style. -->
+
+<h3 id="headertype">HeaderType</h3>
+<p><code>HeaderType</code> is the type of the column headers returned for data. It is available as <code>lseg.data.HeaderType</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>HeaderType.NAME</code></td>
+<td><code>1</code></td>
+<td>field name as column header.</td>
+</tr>
+<tr>
+<td><code>HeaderType.TITLE</code></td>
+<td><code>2</code></td>
+<td>field title as column header.</td>
+</tr>
+<tr>
+<td><code>HeaderType.NAME_AND_TITLE</code></td>
+<td><code>3</code></td>
+<td>field name and title as column header.</td>
+</tr>
+</tbody></table>
+<!-- Source of the sentence and the meanings above: the docstring of HeaderType (tag v2.2.3), verbatim. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.get_data and lseg.data.HeaderType. Docstring in lseg/data/_access_layer/get_data_func.py. Link to the open_session page when that page exists. -->

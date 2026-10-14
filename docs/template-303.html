@@ -1,0 +1,254 @@
+<h1 id="desktopdirectsession">DesktopDirectSession</h1>
+<p>DesktopDirect sessions connect to the Workspace API Gateway using an Entra token exchange.</p>
+<!-- Source of the sentence above: the docstring of the module lseg.data.session.desktopdirect (tag v2.2.3), verbatim. -->
+
+<p>A DesktopDirect session is created with <code>lseg.data.session.desktopdirect.Definition</code>. The session it returns has the members described in <a href="#/sections/session-layer/session">Sessions</a>.</p>
+<h3 id="creating-a-desktopdirect-session">Creating a DesktopDirect session</h3>
+<p><code>lseg.data.session.desktopdirect.Definition</code> defines a DesktopDirect session using a named configuration and an optional Entra authentication provider. The app key is read from the configuration.</p>
+<pre><code class="language-python">Definition(
+    name: str = &#39;default&#39;,
+    entra_provider: EntraAuthentication | EntraAuthenticationProvider = None,
+    take_real_time_control: bool = False,
+    deployed_platform_host: str = None,
+    deployed_platform_username: str = None,
+    dacs_position: str = None,
+    dacs_application_id: str = None,
+)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;default&#39;</code></td>
+<td>Name of the session in the config file.</td>
+</tr>
+<tr>
+<td><code>entra_provider</code></td>
+<td><code>EntraAuthentication | EntraAuthenticationProvider</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>An EntraProvider wrapping a user-supplied token callback, or an EntraAuthentication acquiring tokens with MSAL. A bare callback or raw token is not accepted.<br>When omitted, the Entra client ID and authority are read from &#39;sessions.desktop-direct.&lt;name&gt;.entra-client-id&#39;/&#39;entra-authority&#39; in the local config file, with fallback to the default session.<br>To customize the MSAL scope or redirect port, pass an EntraAuthentication instance with scope or redirect_port set.</td>
+</tr>
+<tr>
+<td><code>take_real_time_control</code></td>
+<td><code>bool</code></td>
+<td>No</td>
+<td><code>False</code></td>
+<td>Whether to request real-time control when exchanging the Entra token.</td>
+</tr>
+<tr>
+<td><code>deployed_platform_host</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Host name (or IP) and port of a local Real-Time Distribution System. When set, the pricing streaming endpoint (apis.streaming.pricing.endpoints.main) is served by this Real-Time Distribution System, while every other request keeps going through the Workspace API Gateway. The Real-Time Distribution System usually requires the service to be set explicitly, either on the stream definition or with the &#39;sessions.desktop-direct.&lt;name&gt;.apis.streaming.pricing.service&#39; config parameter.</td>
+</tr>
+<tr>
+<td><code>deployed_platform_username</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>DACS username identifying the user when connecting to the Real-Time Distribution System. Required when deployed_platform_host is set.</td>
+</tr>
+<tr>
+<td><code>dacs_position</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>DACS position identifying the terminal when connecting to the Real-Time Distribution System.</td>
+</tr>
+<tr>
+<td><code>dacs_application_id</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>DACS application ID used when connecting to the Real-Time Distribution System.</td>
+</tr>
+</tbody></table>
+<!-- Maintainer review required [sdk-fix]: the Definition docstring still calls the class EntraProvider (the line "entra_provider: EntraProvider or EntraAuthentication, optional" and the sentence "An EntraProvider wrapping..."). It was renamed to EntraAuthenticationProvider in v2.2.3. The description above is the docstring text, verbatim. -->
+
+<p><code>Definition.get_session()</code> creates and returns the session. It returns the DesktopDirectSession instance.</p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Exception</code></td>
+<td>If the entra_provider is not valid, or deployed_platform_host is set without deployed_platform_username.</td>
+</tr>
+</tbody></table>
+<h3 id="entraauthenticationprovider">EntraAuthenticationProvider</h3>
+<p><code>lseg.data.session.desktopdirect.EntraAuthenticationProvider</code> is Entra authentication using a user-supplied token callback.</p>
+<pre><code class="language-python">EntraAuthenticationProvider(get_access_token: Callable[[], str])
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>get_access_token</code></td>
+<td><code>Callable[[], str]</code></td>
+<td>Yes</td>
+<td>A callback invoked with no arguments whenever the library needs an Entra access token: once when the provider is created, and again automatically whenever Heimdall&#39;s own refresh token has expired and can no longer be renewed, so the token-exchange flow can restart with a fresh Entra token instead of leaving the session unauthorized. Must return a non-empty token string. The callback is required; token acquisition and any caching are the caller&#39;s responsibility.</td>
+</tr>
+</tbody></table>
+<h3 id="entraauthentication">EntraAuthentication</h3>
+<p><code>lseg.data.session.desktopdirect.EntraAuthentication</code> is MSAL-based Entra authentication for a DesktopDirect session.</p>
+<pre><code class="language-python">EntraAuthentication(
+    entra_client_id: str,
+    entra_authority: str = None,
+    scope: str = None,
+    redirect_port: int = None,
+)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>entra_client_id</code></td>
+<td><code>str</code></td>
+<td>Yes</td>
+<td></td>
+<td>Entra application (client) ID.</td>
+</tr>
+<tr>
+<td><code>entra_authority</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Entra authority URL. Defaults to <code>https://login.microsoftonline.com/organizations</code>.</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Entra scope to request instead of <code>&lt;entra_client_id&gt;/.default</code>. Must be a non-empty string when provided.</td>
+</tr>
+<tr>
+<td><code>redirect_port</code></td>
+<td><code>int</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Local redirect port for interactive authentication. When omitted or set to 0, MSAL uses a system-allocated port. Valid values are integers from 0 to 65535. The redirect URI uses <code>http://localhost</code>.</td>
+</tr>
+</tbody></table>
+<p>It acquires an Entra token during construction, reusing an encrypted MSAL cache when possible and otherwise using interactive authentication. The same client ID, authority, scope and redirect port are used when the session needs a fresh token to restart its token exchange. It requires the optional dependencies installed with <code>pip install lseg-data[entra]</code>.</p>
+<!-- Maintainer review required [deferred]: the following public members of EntraAuthenticationProvider and EntraAuthentication have no description, so they are not documented above: attributes authentication_token, entra_authority, entra_client_id, get_access_token, redirect_port, scope; method is_valid(). refresh_authentication_token() is documented in the source but says it is called by EntraAuthManager (library internal), so it is left out. -->
+
+<h3 id="get_entra_token">get_entra_token</h3>
+<p><code>lseg.data.session.desktopdirect.get_entra_token</code> acquires an Entra access token using MSAL and an encrypted token cache.</p>
+<pre><code class="language-python">get_entra_token(
+    entra_client_id: str,
+    authority: str,
+    scope: str = None,
+    redirect_port: int = None,
+) -&gt; str
+</code></pre>
+<p>It tries silent acquisition for a single cached account before opening interactive authentication. Multiple cached accounts are rejected.</p>
+<p>On Windows the cache is encrypted with DPAPI and can only be decrypted by the same Windows user. On macOS it is stored in Keychain, and on Linux it is stored through Secret Service/libsecret.</p>
+<p><code>msal</code> and <code>msal-extensions</code> are optional dependencies imported lazily on first call. Install them with <code>pip install lseg-data[entra]</code> (or <code>pip install msal msal-extensions</code>) before calling this function.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>entra_client_id</code></td>
+<td><code>str</code></td>
+<td>Yes</td>
+<td></td>
+<td>Entra application (client) ID.</td>
+</tr>
+<tr>
+<td><code>authority</code></td>
+<td><code>str</code></td>
+<td>Yes</td>
+<td></td>
+<td>Entra authority URL, for example <code>https://login.microsoftonline.com/organizations</code>.</td>
+</tr>
+<tr>
+<td><code>scope</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Entra scope to request. Defaults to <code>&lt;entra_client_id&gt;/.default</code>. Must be a non-empty string when provided; surrounding whitespace is stripped.</td>
+</tr>
+<tr>
+<td><code>redirect_port</code></td>
+<td><code>int</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Local redirect port for interactive authentication. When omitted or set to 0, MSAL selects an available port. Valid values are integers from 0 to 65535. Passed as <code>port</code> to MSAL&#39;s interactive acquisition; silent acquisition does not use it.</td>
+</tr>
+</tbody></table>
+<p><strong>Returns</strong></p>
+<p><code>str</code>: the acquired Entra access token.</p>
+<p><strong>Raises</strong></p>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LDError</code></td>
+<td>If the client ID or authority is missing, or scope or redirect_port is invalid.</td>
+</tr>
+<tr>
+<td><code>RuntimeError</code></td>
+<td>If an optional MSAL dependency is missing, encrypted caching is unsupported, multiple cached accounts are found, or token acquisition returns no access token.</td>
+</tr>
+</tbody></table>
+<h3 id="example">Example</h3>
+<p>Wrap your own no-argument token acquisition function, <code>get_token</code>:</p>
+<pre><code class="language-python">from lseg.data import session
+
+definition = session.desktopdirect.Definition(
+    entra_provider=session.desktopdirect.EntraAuthenticationProvider(get_access_token=get_token),
+)
+definition = session.desktopdirect.Definition(
+    entra_provider=session.desktopdirect.EntraAuthentication(
+        entra_client_id=&quot;&lt;your-entra-client-id&gt;&quot;,
+        entra_authority=&quot;https://login.microsoftonline.com/organizations&quot;,
+        scope=&quot;api://&lt;resource-id&gt;/.default&quot;,
+        redirect_port=8400,
+    ),
+)
+desktop_direct_session = definition.get_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires network access, an Entra app registration and a Workspace API Gateway. It is the Examples section of the docstring of Definition (tag v2.2.3), without the >>> prompts. `get_token` is the reader's own function, as the docstring's first line says. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.session.desktopdirect.Definition, .EntraAuthenticationProvider, .EntraAuthentication, .get_entra_token and the module docstring of lseg.data.session.desktopdirect. -->

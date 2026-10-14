@@ -1,0 +1,213 @@
+<h1 id="platformsession">PlatformSession</h1>
+<p>This type of session is used to connect directly to the Data Platform or through a Real-Time Distribution System. If you would like to connect directly to RDP, you require a Refinitiv Data account (either a user account or a machine account). In both instances, you need to provide Refinitiv data credentials to create the session. If you would like to work through a Real-Time Distribution System, you need the IP of the local platform and a username (in other words, a DACS username).</p>
+<!-- Source of the paragraph above: the docstring of the module lseg.data.session.platform (tag v2.2.3), verbatim. Maintainer review required [sdk-fix]: the product names (RDP, Refinitiv Data account, Refinitiv data credentials) are the SDK's wording; confirm they are current before publishing. -->
+
+<p>A platform session is created with <code>lseg.data.session.platform.Definition</code>. The session it returns has the members described in <a href="#/sections/session-layer/session">Sessions</a>.</p>
+<h3 id="creating-a-platform-session">Creating a platform session</h3>
+<p><code>lseg.data.session.platform.Definition</code> defines a platform session. It can be defined indirectly using the name of a session defined in the configuration file or directly by specifying the other Definition parameters.</p>
+<pre><code class="language-python">Definition(
+    name: str = &#39;default&#39;,
+    app_key: str = None,
+    grant: GrantPassword | ClientCredentials = None,
+    signon_control: bool = False,
+    deployed_platform_host: str = None,
+    deployed_platform_username: str = None,
+    dacs_position: str = None,
+    dacs_application_id: str = None,
+    proxies: str | dict = None,
+    app_name: str = None,
+)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;default&#39;</code></td>
+<td>Session name</td>
+</tr>
+<tr>
+<td><code>app_key</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Application key</td>
+</tr>
+<tr>
+<td><code>grant</code></td>
+<td><code>GrantPassword | ClientCredentials</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Grants objects containing the credentials used to authenticate the user (or the machine) when connecting to the data platform. Several kind of grant objects can be used, GrantPassword is for STS and ClientCredentials is for Ping.</td>
+</tr>
+<tr>
+<td><code>signon_control</code></td>
+<td><code>bool</code></td>
+<td>No</td>
+<td><code>False</code></td>
+<td>Controls the exclusive sign-on behavior when the user account (or computer account) for this session is concurrently used by another application. When this parameter is set to True, opening this session automatically disconnects the other application. When this parameter is set to False, the opening of this session fails preserving the other application.</td>
+</tr>
+<tr>
+<td><code>deployed_platform_host</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Host name (or IP) and port to be used to connect to Real-Time Distribution System.</td>
+</tr>
+<tr>
+<td><code>deployed_platform_username</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>DACS username identifying the user when to connect to a Real-Time Distribution System</td>
+</tr>
+<tr>
+<td><code>dacs_position</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>DACS position identifying the terminal when connecting to a Real-Time Distribution System.</td>
+</tr>
+<tr>
+<td><code>dacs_application_id</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Must contain the user&#39;s Data Access Control System application ID. For more information, refer to the DACS documentation on my.refinitiv.com</td>
+</tr>
+<tr>
+<td><code>proxies</code></td>
+<td><code>str | dict</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Proxies configuration. If string, should be the URL of the proxy (e.g. &#39;<a href="https://proxy.com:8080&#39;">https://proxy.com:8080&#39;</a>). If a dict, the keys are the protocol name (e.g. &#39;http&#39;, &#39;https&#39;) and the values are the proxy URLs.</td>
+</tr>
+<tr>
+<td><code>app_name</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Application name</td>
+</tr>
+</tbody></table>
+<p><code>Definition.get_session()</code> creates and returns the session. It returns the platform session instance.</p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Exception</code></td>
+<td>If app-key is not found in the config file and in arguments.</td>
+</tr>
+</tbody></table>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import lseg.data as ld
+
+definition = ld.session.platform.Definition(name=&quot;custom-session-name&quot;)
+platform_session = definition.get_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials, network access and a configuration file defining the named session. The code is the Examples section of the lseg.data.session.platform.Definition docstring (tag v2.2.3). -->
+
+<h3 id="grants">Grants</h3>
+<h4 id="grantpassword">GrantPassword</h4>
+<pre><code class="language-python">GrantPassword(username: str, password: str, token_scope: str = &#39;trapi&#39;)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>username</code></td>
+<td><code>str</code></td>
+<td>Yes</td>
+<td></td>
+<td>The username to use for authentication</td>
+</tr>
+<tr>
+<td><code>password</code></td>
+<td><code>str</code></td>
+<td>Yes</td>
+<td></td>
+<td>The password to use for authentication</td>
+</tr>
+<tr>
+<td><code>token_scope</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;trapi&#39;</code></td>
+<td>The scope to use for authentication</td>
+</tr>
+</tbody></table>
+<pre><code class="language-python">import lseg.data as ld
+
+grant = ld.session.platform.GrantPassword(username=&quot;&lt;your-username&gt;&quot;, password=&quot;&lt;your-password&gt;&quot;)
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials. The code was written from the constructor signature with placeholder credentials, NOT copied from the SDK: the docstring example of GrantPassword is malformed (it contains a redacted `******` in place of the password argument). Maintainer review required [sdk-fix]: replace with an official example once the SDK docstring is fixed. -->
+
+<!-- Maintainer review required [sdk-decision]: Public methods of GrantPassword without a description, not documented above: get_password, get_token_scope, get_username, is_valid, password(value), username(user_name), with_scope(token_scope). The class itself has no docstring (the parameter documentation sits on its constructor). -->
+
+<h4 id="clientcredentials">ClientCredentials</h4>
+<pre><code class="language-python">ClientCredentials(client_id: str = &#39;&#39;, client_secret: str = &#39;&#39;, token_scope: str = &#39;trapi&#39;)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>client_id</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;&#39;</code></td>
+<td>The client_id to use for authentication</td>
+</tr>
+<tr>
+<td><code>client_secret</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;&#39;</code></td>
+<td>The client_secret to use for authentication</td>
+</tr>
+<tr>
+<td><code>token_scope</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;trapi&#39;</code></td>
+<td>The scope to use for authentication</td>
+</tr>
+</tbody></table>
+<pre><code class="language-python">import lseg.data as ld
+
+grant = ld.session.platform.ClientCredentials(
+    client_id=&quot;&lt;your-client-id&gt;&quot;,
+    client_secret=&quot;&lt;your-client-secret&gt;&quot;,
+    token_scope=&quot;&lt;your-token-scope&gt;&quot;,
+)
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials. Follows the first Examples entry of the ClientCredentials docstring (tag v2.2.3) with the example literals replaced by placeholders. Maintainer review required [sdk-fix]: the public method is_valid() has no description and is not documented above. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.session.platform.Definition, .GrantPassword, .ClientCredentials and the module docstring of lseg.data.session.platform. -->

@@ -1,0 +1,146 @@
+<h1 id="session-states-and-events">Session states and events</h1>
+<p>A session reports its state through <code>OpenState</code> and its status events through <code>EventCode</code>. Register callbacks with <a href="#/sections/session-layer/session">Sessions: on_state and on_event</a> to be notified of changes.</p>
+<h3 id="openstate">OpenState</h3>
+<p>Session lifecycle state. Available as <code>lseg.data.OpenState</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>OpenState.Opened</code></td>
+<td><code>&#39;Opened&#39;</code></td>
+<td>The session is open and ready to work.</td>
+</tr>
+<tr>
+<td><code>OpenState.Pending</code></td>
+<td><code>&#39;Pending&#39;</code></td>
+<td>The session is waiting to be opened or closed.</td>
+</tr>
+<tr>
+<td><code>OpenState.Closed</code></td>
+<td><code>&#39;Closed&#39;</code></td>
+<td>The session is closed.</td>
+</tr>
+</tbody></table>
+<p>A session&#39;s <code>open()</code>, <code>close()</code> and their async versions return an <code>OpenState</code>. The <code>open_state</code> property of a session returns the session state, and <code>on_state</code> callbacks receive an <code>OpenState</code>.</p>
+<h3 id="eventcode">EventCode</h3>
+<p>Each session can report different status events during its lifecycle. Available as <code>lseg.data.session.EventCode</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>EventCode.StreamConnecting</code></td>
+<td><code>1</code></td>
+<td>The connection to the stream service within the session is pending.</td>
+</tr>
+<tr>
+<td><code>EventCode.StreamConnected</code></td>
+<td><code>2</code></td>
+<td>The connection to the stream service has been successfully established.</td>
+</tr>
+<tr>
+<td><code>EventCode.StreamDisconnected</code></td>
+<td><code>3</code></td>
+<td>The connection to the stream service is not established.</td>
+</tr>
+<tr>
+<td><code>EventCode.StreamAuthenticationSuccess</code></td>
+<td><code>4</code></td>
+<td>The stream has successfully authenticated this client.</td>
+</tr>
+<tr>
+<td><code>EventCode.StreamAuthenticationFailed</code></td>
+<td><code>5</code></td>
+<td>The stream has failed to authenticate this client.</td>
+</tr>
+<tr>
+<td><code>EventCode.StreamReconnecting</code></td>
+<td><code>6</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionConnecting</code></td>
+<td><code>21</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionConnected</code></td>
+<td><code>22</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionDisconnected</code></td>
+<td><code>23</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationSuccess</code></td>
+<td><code>24</code></td>
+<td>The session has successfully authenticated this client.</td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationFailed</code></td>
+<td><code>25</code></td>
+<td>The session has failed to authenticate this client.</td>
+</tr>
+<tr>
+<td><code>EventCode.SessionReconnecting</code></td>
+<td><code>26</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationFailedRefreshTokenFailed</code></td>
+<td><code>27</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationFailedRefreshTokenExpired</code></td>
+<td><code>28</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationFailedRefreshTokenBad</code></td>
+<td><code>29</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionAuthenticationSuccessRefreshTokenGood</code></td>
+<td><code>30</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionRealTimeAccessAllowed</code></td>
+<td><code>40</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.SessionRealTimeAccessDenied</code></td>
+<td><code>41</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>EventCode.DataRequestOk</code></td>
+<td><code>61</code></td>
+<td>The request for content from the session data services has completed successfully.</td>
+</tr>
+<tr>
+<td><code>EventCode.DataRequestFailed</code></td>
+<td><code>62</code></td>
+<td>The request for content from the session data services has failed.</td>
+</tr>
+</tbody></table>
+<p><code>on_event</code> callbacks receive an <code>EventCode</code>.</p>
+<!-- Maintainer review required [sdk-fix]: only 9 of the 20 EventCode values are described in the EventCode docstring (StreamConnecting, StreamConnected, StreamDisconnected, StreamAuthenticationSuccess, StreamAuthenticationFailed, SessionAuthenticationSuccess, SessionAuthenticationFailed, DataRequestOk, DataRequestFailed). The 11 values with an empty description above have no description anywhere in the SDK: StreamReconnecting, SessionConnecting, SessionConnected, SessionDisconnected, SessionReconnecting, SessionAuthenticationFailedRefreshTokenFailed, SessionAuthenticationFailedRefreshTokenExpired, SessionAuthenticationFailedRefreshTokenBad, SessionAuthenticationSuccessRefreshTokenGood, SessionRealTimeAccessAllowed, SessionRealTimeAccessDenied. Ask the SDK owners for wording; do not infer it from the names. -->
+
+<!-- Maintainer review required [docs]: the descriptions are the docstring lines with the first letter capitalized. The sentences about which members return or receive these enums come from the member signatures (open/close return OpenState; on_state takes a callback with an OpenState; on_event takes a callback with an EventCode) and from the open_state property docstring "Returns the session state.", not from a narrative in the SDK. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entries lseg.data.OpenState and lseg.data.session.EventCode. -->

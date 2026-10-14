@@ -1,0 +1,14 @@
+<h1 id="about-the-delivery-layer">About the Delivery Layer</h1>
+<p>The Delivery Layer provides objects allowing your application to interact with LSEG Data service via the following delivery modes:</p>
+<ul>
+<li>Request (HTTP Request/Response)</li>
+<li>Stream (WebSockets)</li>
+<li>Queue (Alerts)</li>
+<li>Files (bulk)</li>
+</ul>
+<p>Every data service of the LSEG Data exposes one or several of these delivery modes to make its data available to client applications. For each of these delivery modes, the Delivery layer defines classes that can be used to easily retrieve data from these data services in raw format that can be transformed into JSON.</p>
+<p>Classes defined in the Delivery layer do not depend on any specific data service exposed by the LSEG Data. They are service-agnostic, meaning that you can use them to access any service available on the platform.</p>
+<p>Designed as the lowest abstraction layer, the Delivery layer targets developers who need specific features that are not offered by other higher level abstraction layers (Content and Access layers). This layer targets professional developers but can also be used by financial coders with good programming skills.</p>
+<!-- Source: the docstring of the module lseg.data.delivery (tag v2.2.3), verbatim; the four delivery modes, written as plain lines in the docstring, are shown as a list. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Module docstring of lseg.data.delivery. This replaces the adaptation of the .NET page planned in docs/maintainers/decisions/0004-python-intro-pages.md, because the SDK has its own Python text. -->

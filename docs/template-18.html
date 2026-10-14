@@ -1,0 +1,136 @@
+<h1 id="get_history">get_history</h1>
+<p>Retrieves the pricing history, as well as Fundamental and Reference data history.</p>
+<p><code>get_history</code> is part of the Access layer. Import the library as <code>import lseg.data as ld</code> and call <code>ld.get_history(...)</code>. A session must be open first.</p>
+<!-- Maintainer review required [sdk-fix]: "A session must be open first." is not in the get_history docstring. It comes from the source: get_history calls raise_if_closed(get_default()) first (lseg/data/_access_layer/get_history_func.py lines 87-88, tag v2.2.3), and the SDK README opens a session before calling get_history. Confirm with the SDK owners that this is the intended, supported behavior. -->
+
+<h3 id="syntax">Syntax</h3>
+<pre><code class="language-python">get_history(
+    universe: str | Iterable[str],
+    fields: str | Iterable[str] | None = None,
+    interval: str | None = None,
+    start: OptDateTime = None,
+    end: OptDateTime = None,
+    adjustments: str | None = None,
+    count: int | None = None,
+    parameters: str | dict | None = None,
+    header_type: HeaderType = HeaderType.TITLE,
+) -&gt; DataFrame
+</code></pre>
+<h3 id="parameters">Parameters</h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>universe</code></td>
+<td><code>str | Iterable[str]</code></td>
+<td>Yes</td>
+<td></td>
+<td>Instruments to request</td>
+</tr>
+<tr>
+<td><code>fields</code></td>
+<td><code>str | Iterable[str] | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Fields to request</td>
+</tr>
+<tr>
+<td><code>interval</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Date interval. Supported intervals are: tick, tas, taq, minute, 1min, 5min, 10min, 30min, 60min, hourly, 1h, daily, 1d, 1D, 7D, 7d, weekly, 1W, monthly, 1M, quarterly, 3M, 6M, yearly, 1Y</td>
+</tr>
+<tr>
+<td><code>start</code></td>
+<td><code>str | date | datetime | timedelta | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>The start date and timestamp of the requested history</td>
+</tr>
+<tr>
+<td><code>end</code></td>
+<td><code>str | date | datetime | timedelta | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>The end date and timestamp of the requested history</td>
+</tr>
+<tr>
+<td><code>adjustments</code></td>
+<td><code>str | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Tells the system whether to apply or not apply CORAX (Corporate Actions) events or exchange/manual corrections or price and volume adjustment according to trade/quote qualifier summarization actions to historical time series data. Possible values are: exchangeCorrection, manualCorrection, CCH, CRE, RTS, RPO, unadjusted, qualifiers</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td><code>int | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>The maximum number of data points returned. Values range: 1 - 10000. Applies only to pricing fields.</td>
+</tr>
+<tr>
+<td><code>parameters</code></td>
+<td><code>str | dict | None</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Single global parameter key=value or dictionary of global parameters to request. Applies only to TR fields.</td>
+</tr>
+<tr>
+<td><code>header_type</code></td>
+<td><code>HeaderType</code></td>
+<td>No</td>
+<td><code>HeaderType.TITLE</code></td>
+<td>If HeaderType.TITLE - returns field title as column headers for data<br>If HeaderType.NAME - returns field name as column headers for data<br>If HeaderType.NAME_AND_TITLE - returns field name and title as column headers for data</td>
+</tr>
+</tbody></table>
+<p><code>HeaderType</code> is described on the <a href="#/sections/access-layer/get-data">get_data</a> page.</p>
+<!-- Maintainer review required [confirm]: the signature types start and end as `OptDateTime`, an alias of the SDK that is not exported. The Type column shows the type written in the docstring ("str or date or datetime or timedelta, optional"); the Syntax block keeps the name used in the signature. Confirm that the docstring type is the intended public type. -->
+
+<h3 id="returns">Returns</h3>
+<p><code>pandas.DataFrame</code></p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ValueError</code></td>
+<td>The default session is not open: <code>Session is not opened. Can&#39;t send any request</code></td>
+</tr>
+</tbody></table>
+<!-- Maintainer review required [sdk-fix]: the get_history docstring has no Raises section. ValueError is taken from the source, not from documentation (raise_if_closed in lseg/data/_core/session/tools.py, called at the start of get_history, tag v2.2.3). Confirm with the SDK owners. -->
+
+<h3 id="example">Example</h3>
+<pre><code class="language-python">import lseg.data as ld
+
+ld.open_session()
+
+df = ld.get_history(universe=&quot;GOOG.O&quot;)
+
+df = ld.get_history(universe=&quot;GOOG.O&quot;, fields=&quot;tr.Revenue&quot;, interval=&quot;1Y&quot;)
+
+df = ld.get_history(
+    universe=&quot;GOOG.O&quot;,
+    fields=[&quot;BID&quot;, &quot;ASK&quot;, &quot;tr.Revenue&quot;],
+    interval=&quot;1Y&quot;,
+    start=&quot;2015-01-01&quot;,
+    end=&quot;2020-10-01&quot;,
+)
+print(df)
+
+ld.close_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires credentials, network access and data entitlements. The three get_history calls are the Examples section of the docstring (tag v2.2.3) with the `ld.` prefix added; the session lines follow the SDK README. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entry lseg.data.get_history. Docstring in lseg/data/_access_layer/get_history_func.py. -->

@@ -1,0 +1,64 @@
+<h1 id="desktopsession">DesktopSession</h1>
+<p>This type of session is used to connect to the Data Platform through Refinitiv Eikon or LSEG Workspace. It requires Refinitiv Eikon or LSEG Workspace to be running alongside your application. This type of session does not work with Refinitiv Eikon Web or LSEG Workspace for Web.</p>
+<!-- Source of the paragraph above: the docstring of the module lseg.data.session.desktop (tag v2.2.3), verbatim. Maintainer review required [sdk-fix]: the product names (Refinitiv Eikon, LSEG Workspace) are the SDK's wording; confirm they are current before publishing. -->
+
+<p>A desktop session is created with <code>lseg.data.session.desktop.Definition</code>. The session it returns has the members described in <a href="#/sections/session-layer/session">Sessions</a>.</p>
+<h3 id="creating-a-desktop-session">Creating a desktop session</h3>
+<p><code>lseg.data.session.desktop.Definition</code> defines a desktop session. It can be defined indirectly using the name of a session defined in the configuration file or directly by specifying the <code>app_key</code> parameter.</p>
+<pre><code class="language-python">Definition(name: str = &#39;workspace&#39;, app_key: str = None, app_name: str = None)
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Required</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>&#39;workspace&#39;</code></td>
+<td>Name of the session in the config file.</td>
+</tr>
+<tr>
+<td><code>app_key</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Application key.</td>
+</tr>
+<tr>
+<td><code>app_name</code></td>
+<td><code>str</code></td>
+<td>No</td>
+<td><code>None</code></td>
+<td>Application name.</td>
+</tr>
+</tbody></table>
+<p><code>Definition.get_session()</code> creates and returns the session. It returns the desktop session instance.</p>
+<h3 id="raises">Raises</h3>
+<table>
+<thead>
+<tr>
+<th>Exception</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Exception</code></td>
+<td>If app-key is not found in the config file and in arguments.</td>
+</tr>
+</tbody></table>
+<h3 id="example">Example</h3>
+<pre><code class="language-python">from lseg.data import session
+
+definition = session.desktop.Definition(name=&quot;custom-session-name&quot;)
+desktop_session = definition.get_session()
+</code></pre>
+<!-- Example validation: syntax-validated only; not executed - requires desktop environment (Eikon or Workspace running locally) and a configuration file defining the named session. The code is the Examples section of the lseg.data.session.desktop.Definition docstring (tag v2.2.3). -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Inventory entry lseg.data.session.desktop.Definition and the module docstring of lseg.data.session.desktop. -->

@@ -1,0 +1,21 @@
+<h1 id="about-the-session-layer">About the Session Layer</h1>
+<p>Accessing the Data Platform to retrieve content requires your application to authenticate and manage connection semantics to keep the user session live. LSEG Data Libraries provide this managed access through an interface called a session. The session is the interface to the data platform and is responsible for defining authentication details, managing connection resources, and implementing the necessary protocol to communicate with the data platform. Depending on the access point your application uses to connect to the platform, it can choose from one of the session implementations to initiate the connection. For the creation phase, all session implementations expose the same API and behave in the same way.</p>
+<!-- Source of the paragraph above: the docstring of the module lseg.data.session (tag v2.2.3), verbatim, without its title line "Session layer.". -->
+
+<p>The Session layer defines interfaces allowing your application to connect to the Data Platform via different access points (either via a direct connection, via Eikon, via the LSEG Workspace, via CodeBook or even via a local Real-Time Distribution System).</p>
+<!-- Source of the sentence above: the SDK README (tag v2.2.3), description of the Session layer, verbatim. Maintainer review required [sdk-fix]: the README names Eikon and CodeBook as access points; confirm these names are current before publishing. -->
+
+<h3 id="session-types">Session types</h3>
+<p>The library provides these session types:</p>
+<ul>
+<li><strong>Desktop:</strong> This type of session is used to connect to the Data Platform through Refinitiv Eikon or LSEG Workspace. See <a href="#/sections/session-layer/desktop-session">DesktopSession</a>.</li>
+<li><strong>DesktopDirect:</strong> This type of session is used to connect to the new Data Platform using the new entra session type. See <a href="#/sections/session-layer/desktop-direct-session">DesktopDirectSession</a>.</li>
+<li><strong>Platform:</strong> This type of session is used to connect directly to the Data Platform or through a Real-Time Distribution System. See <a href="#/sections/session-layer/platform-session">PlatformSession</a>.</li>
+</ul>
+<!-- Source of the three descriptions above: the first sentence of the module docstrings of lseg.data.session.desktop, lseg.data.session.desktopdirect and lseg.data.session.platform (tag v2.2.3), verbatim. Maintainer review required [deferred]: the DesktopDirect sentence is vague, and the product names (Refinitiv Eikon, new Data Platform) are the SDK's wording. -->
+
+<h3 id="using-a-session">Using a session</h3>
+<p>Create a session with <code>lseg.data.session.Definition</code> or open one with <code>ld.open_session()</code>; see <a href="#/sections/session-layer/session">Sessions</a> and <a href="#/sections/session-layer/open-session">open_session and close_session</a>. Sessions report their state and events through the types described in <a href="#/sections/session-layer/states-and-events">Session states and events</a>. The library reads session names and parameters from a configuration file; see <a href="#/sections/session-layer/configuration">Configuration</a>.</p>
+<!-- Maintainer review required [docs]: the paragraph "Using a session" is a navigation summary written for this page. Every statement in it is taken from the pages it links to (and from the Definition docstring, which says a session name "must refer to a session and the related parameters defined in the configuration file of the library"), but it is not an SDK sentence. The .NET book's Session intro also states which session types need an App Key and describes OAuth grant types; none of that is stated for Python in the module docstrings, so it is not included. -->
+
+<!-- Source: lseg-data 2.2.3 (tag v2.2.3, commit a0e99903a872). Module docstrings of lseg.data.session, .desktop, .desktopdirect, .platform. Written for the Python book; not adapted from the .NET page. -->
