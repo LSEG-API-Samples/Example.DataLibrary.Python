@@ -35,6 +35,26 @@
             "workspace": {
                 "app-key": "YOUR APP KEY GOES HERE!"
             }
+        },
+        "desktop-direct": {
+            "direct": {
+                "entra-client-id": "YOUR ENTRA CLIENT ID GOES HERE!",
+                "entra-authority": "https://login.microsoftonline.com/organizations",
+                "take-real-time-control": false
+            },
+            "directdeployed": {
+                "entra-client-id": "YOUR ENTRA CLIENT ID GOES HERE!",
+                "entra-authority": "https://login.microsoftonline.com/organizations",
+                "take-real-time-control": false,
+                "realtime-distribution-system": {
+                    "url" : "YOUR DEPLOYED HOST:PORT GOES HERE!",
+                    "dacs" : {
+                        "username" : "YOUR DACS ID GOES HERE!",
+                        "application-id" : 256,
+                        "position" : ""
+                    }
+                }
+            }
         }
     }
 }
