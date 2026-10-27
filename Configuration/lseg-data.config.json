@@ -12,7 +12,7 @@
         }
     },
     "sessions": {
-        "default": "platform.ldp",
+        "default": "desktop.workspace",
         "platform": {
             "ldp": {
                 "app-key": "YOUR APP KEY GOES HERE!",
@@ -33,7 +33,7 @@
         },
         "desktop": {
             "workspace": {
-                "app-key": "YOUR APP KEY GOES HERE!"
+                "app-key": "DEFAULT_WORKSPACE_APP_KEY"
             }
         },
         "desktop-direct": {
