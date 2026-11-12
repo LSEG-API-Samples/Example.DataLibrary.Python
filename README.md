@@ -14,7 +14,17 @@ The library provides multiple layers of abstraction allowing for different style
  - The *__Delivery layer__* is a lower abstraction layer that allows your applications to retrieve data using the service agnostic delivery mechanisms defined by the LSEG Data Platform. The _Delivery layer_ is a foundational component of the _Content layer_.
  - The *__Session layer__* defines interfaces allowing your application to connect to the LSEG Data Platform via its various access points (either via a direct connection, via Eikon, via the LSEG Workspace, via CodeBook or even via a local Real-Time Distribution System).
 
-The organisation of this section is based on these layers so that you can quickly find the examples that best suit your specific use case.
+The organization of this section is based on these layers so that you can quickly find the examples that best suit your specific use case.
+
+## Discovery
+
+The Discovery examples demonstrate how to find and work with instruments and universes using the `lseg.data.discovery` APIs:
+
+ - [Search](Examples/5-Discovery/EX-5.01-Discovery-Search.ipynb)
+ - [Convert symbols](Examples/5-Discovery/EX-5.02-Discovery-ConvertSymbols.ipynb)
+ - [Customers and suppliers](Examples/5-Discovery/EX-5.03-Discovery-CustomersAndSuppliers.ipynb)
+ - [Futures instruments](Examples/5-Discovery/EX-5.04-Discovery-Instruments.ipynb)
+ - [Universe expanders](Examples/5-Discovery/EX-5.05-Discovery-UniverseExpanders.ipynb)
 
 ## Learn more
 
